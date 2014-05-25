@@ -62,18 +62,19 @@ it directly within the library itself.
 
 ## Installation
 
-For development
+For development:
 
     git clone git@github.com:lethain/organize.git
     cd organize
-    virtualenv env
-    . ./env/bin/activate
-    pip install -r requirements.txt
-    python setup.py develop
+    make env
 
-And then you can run the tests via
+And then you can run the tests via:
 
-    python tests/tests.py
+    make test
+
+and the stylechecks via:
+
+    make style
 
 
 ## Usage
@@ -160,31 +161,17 @@ a usecase, please let us know.
 This section includes some commentary for those interested and willing to contribute
 additions to this codebase. First, and most importantly: thank you!
 
-There are three guidelines for successful merging of pull requests:
+Successful pull requests will pass pep8, pylint and tests, as well as including new
+tests for any additional functionality (or fixed bugs). You can verify they are working
+via:
 
-1. Please make them pep8 compliant. We don't necessarily love pep8, but it's easier
-    to work with a shared standard.
-2. Please make sure pylint passes.
-3. Please make sure the unit tests pass and that you add additional unit tests for
-    new functionality.
+    cd ~/path/to/organize
+    make env test style
 
+It's OK to disable certain pylint checks within the files you edit if it's not feasible
+to resolve the pylint complaint. (For example, when it believes a given attribute doesn't
+exist which does but it can't lint properly for whatever reason.)
 
-### Running Pep8, Pylint and Tests
-
-We do run with all of pep8, but we also acknowledge pylint can be a bit of a pain.
-You are generally welcome to disable certain pylint checks within the files you edit
-if it's not feasible to resolve the pylint complaint. (For example, when it believes
-a given attribute doesn't exist which does but it can't lint properly for whatever reason.)
-
-All tests should pass.
-
-You can run these via:
-
-    python tests/tests.py
-    pep8 organize
-    pylint organize
-
-So help us all.
 
 ### Implemntation Notes
 
