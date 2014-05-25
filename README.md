@@ -124,22 +124,6 @@ of the rows instead:
 
 In this case you'll get the first value for each name.
 
-### Only Using Certain Columns
-
-Sometimes you might want to restrict the columns retrieved when you're iterating
-through the dataset. You can do that via:
-
-    with open('myfile', 'r') as fin:
-        for row in organize(fin):
-            for name, val in row.columns('name', 'age', 'gender'):
-                print name, val
-
-This is also the syntax for ensuring that a column is returned even if a given
-row does not happen to have it, with a value of ``None`` (if the row does have the
-value but it is empty, then it will be an empty string, ``""``, rather than ``None``,
-``None`` is only possible in formats which can explicitly not include a column like
-JSON, and will not occur for formats like CSV or TSV which have no such mechanism).
-
 
 ### Only Read Certain Rows
 

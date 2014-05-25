@@ -1,6 +1,6 @@
 "CSV Parser."
 import csv
-from itertools import islice, chain
+from itertools import islice, chain, izip_longest
 from organize.parsers import Parser
 
 
@@ -44,8 +44,9 @@ class CSVParser(Parser):
 
     def without_blank_lines(self, stream):
         "Filter out blank lines."
+        to_strip = '\t\r\n %s' % self.delimiter
         for line in stream:
-            if line.strip():
+            if line.strip(to_strip):
                 yield line
 
     def guess_dialect(self, txt):
@@ -65,22 +66,22 @@ class CSVParser(Parser):
         except csv.Error:
             return False       
 
-    def parse(self, stream, columns=None):
+    def parse(self, stream):
         """
         Parse this file as CSV.
         """
         lines = self.without_blank_lines(stream)
-        lines_for_dialect = islice(lines, self.lines_to_test)
+        lines_for_dialect = list(islice(lines, self.lines_to_test))
         dialect = self.guess_dialect('\n'.join(lines_for_dialect))
 
         # we need to chain the lines we read for dialect detection together
         # with the rest of the unread lines to avoid rereading or dropping
         # their contents
         reader = unicode_csv_reader(chain(lines_for_dialect, lines), dialect=dialect)
+
+        # use first row for headers
+        headers = list(islice(reader, 0, 1))[0]
+
         for row in reader:
-            print row
-
-
-        
-
+            yield ((name,val) for name, val in izip_longest(headers, row))
 

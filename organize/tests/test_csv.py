@@ -1,4 +1,5 @@
 "Test CSV parsing."
+from itertools import islice
 import unittest
 import organize.csv_parser
 import os.path
@@ -40,6 +41,22 @@ class TestCSVParser(unittest.TestCase):
         for filename in self.tsv_filenames:
             with self.file_handle(filename) as fh:
                 self.assertFalse(self.parser.can_parse(fh))
+
+    def test_parse(self):
+        "Test parsing CSV files."
+        filename = 'csv/worldbank.csv'
+        with self.file_handle(filename) as fh:
+            first = list(self.parser.parse(fh).next())
+            self.assertEquals(first, [(u'Country', u'Belarus'), (u'Year', u'2000'), (u'CO2 emissions (metric tons per capita)', u'5.91'), (u'Electric power consumption (kWh per capita)', u'2988.71'), (u'Energy use (kg of oil equivalent per capita)', u'2459.67'), (u'Fertility rate, total (births per woman)', u'1.29'), (u'GNI per capita, Atlas method (current US$)', u'1.38E+03'), (u'Internet users (per 1,000 people)', u'18.69'), (u'Life expectancy at birth, total (years)', u'68.01'), (u'Military expenditure (% of GDP)', u'1.26'), (u'Population, total', u'1.00E+07'), (u'Prevalence of HIV, total (% of population ages 15-49)', u'')])
+
+    def test_parse_despite_empty_lines(self):
+        "Test parsing CSV files with empty lines scattered about."
+        filename = 'csv/worldbank_whitespace.csv'
+        with self.file_handle(filename) as fh:
+            lines = self.parser.parse(fh)
+            first = list(lines.next())
+            self.assertEquals(first, [(u'Country', u'Belarus'), (u'Year', u'2000'), (u'CO2 emissions (metric tons per capita)', u'5.91'), (u'Electric power consumption (kWh per capita)', u'2988.71'), (u'Energy use (kg of oil equivalent per capita)', u'2459.67'), (u'Fertility rate, total (births per woman)', u'1.29'), (u'GNI per capita, Atlas method (current US$)', u'1.38E+03'), (u'Internet users (per 1,000 people)', u'18.69'), (u'Life expectancy at birth, total (years)', u'68.01'), (u'Military expenditure (% of GDP)', u'1.26'), (u'Population, total', u'1.00E+07'), (u'Prevalence of HIV, total (% of population ages 15-49)', u'')])
+            self.assertEquals(3, len(list(lines)))
 
 
 if __name__ == '__main__':
