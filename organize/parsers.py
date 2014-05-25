@@ -62,3 +62,10 @@ class Parser(object):
         labeled file.
         """
         return mimetype in self.mimetypes
+
+    def without_blank_lines(self, stream):
+        "Filter out blank lines."
+        to_strip = '\t\r\n %s' % self.delimiter
+        for line in stream:
+            if line.strip(to_strip):
+                yield line

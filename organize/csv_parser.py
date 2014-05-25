@@ -2,6 +2,7 @@
 import csv
 from itertools import islice, chain, izip_longest
 from organize.parsers import Parser
+from cStringIO import StringIO
 
 
 def unicode_csv_reader(unicode_csv_data, dialect=csv.excel, **kwargs):
@@ -41,14 +42,6 @@ class CSVParser(Parser):
     extensions = ('.csv')
     delimiter = ','
     lines_to_test = 25
-
-    def without_blank_lines(self, stream):
-        "Filter out blank lines."
-        to_strip = '\t\r\n %s' % self.delimiter
-        for line in stream:
-            if line.strip(to_strip):
-                yield line
-
     def guess_dialect(self, txt):
         "Try to guess CSV dialect."
         utf8_txt = txt.encode('utf-8')
@@ -56,7 +49,7 @@ class CSVParser(Parser):
 
     def can_parse(self, stream):
         "Can parse this file as CSV."
-        lines = islice(self.without_blank_lines(stream), self.lines_to_test)
+        lines = islice(self.without_preamble(self.without_blank_lines(stream)), self.lines_to_test)
         txt = '\n'.join(lines)
         try:
             dialect = self.guess_dialect(txt)
@@ -64,13 +57,38 @@ class CSVParser(Parser):
                 return True
             return False
         except csv.Error:
-            return False       
+            return False
+
+    def without_preamble(self, stream):
+        """
+        Remove a stream's preamble if any.
+
+        This is necessarily pretty hacky. What we do here is parse
+        the first few lines for columns until we stabilize on a given
+        number of rows. If early rows have a different number of columns
+        then we cut them off.
+        """
+        lines = list(islice(stream, self.lines_to_test))
+
+        num_cols_per_line = []
+        start = 0
+        previous = None
+        for i, line in enumerate(lines):
+            num_cols = len(list(csv.reader(StringIO(line)))[0])
+            num_cols_per_line.append(num_cols)
+            if previous is not None:
+                if num_cols > previous * 2:
+                    start = i
+            previous = num_cols
+
+        for line in chain(lines[start:], stream):
+            yield line
 
     def parse(self, stream):
         """
         Parse this file as CSV.
         """
-        lines = self.without_blank_lines(stream)
+        lines = self.without_preamble(self.without_blank_lines(stream))
         lines_for_dialect = list(islice(lines, self.lines_to_test))
         dialect = self.guess_dialect('\n'.join(lines_for_dialect))
 
@@ -84,4 +102,3 @@ class CSVParser(Parser):
 
         for row in reader:
             yield ((name,val) for name, val in izip_longest(headers, row))
-
