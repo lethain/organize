@@ -1,11 +1,12 @@
 from distutils.core import setup
+import setuptools
 
 setup(
     name='organize',
     version='0.1.0',
     author='Will Larson',
     author_email='lethain@gmail.com',
-    packages=['organize', 'organize.tests', 'organize.examples'],
+    packages=['organize', 'organize.tests'],
     url='http://pypi.python.org/pypi/organize/',
     license='LICENSE.txt',
     description='Parse real-world tabular data in a wide variety of formats.',

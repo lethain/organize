@@ -30,7 +30,10 @@ Our implementation approach is:
 
 1. The library should do the intended thing, even if it requires a hack
     or underwhelming heuristic.
-2. Deal with streams, return streams.
+2. Deal with streams, return streams. Many files are huge and we don't want
+    to be needlessly wasteful.
+3. Don't rely on filenames to identify data formats. Files are often mislabled or
+    not labeled at all.
 
 
 ## What It Does Not Do
