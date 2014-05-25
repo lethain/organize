@@ -3,7 +3,9 @@
 Country,Year,CO2 emissions (metric tons per capita),Electric power consumption (kWh per capita),Energy use (kg of oil equivalent per capita),"Fertility rate, total (births per woman)","GNI per capita, Atlas method (current US$)","Internet users (per 1,000 people)","Life expectancy at birth, total (years)",Military expenditure (% of GDP),"Population, total","Prevalence of HIV, total (% of population ages 15-49)"
 Belarus,2000,5.91,2988.71,2459.67,1.29,1.38E+03,18.69,68.01,1.26,1.00E+07,
 Belarus,2001,5.87,2996.81,2476.16,,1300,43.15,,1.44,9970260,
-
+,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,
 
 Belarus,2002,6.03,2982.77,2539.95,1.25,1370,89.8,68.21,1.4,9925000,
 
