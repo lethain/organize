@@ -22,8 +22,12 @@ class TSVParser(CSVParser):
 
     def can_parse(self, stream):
         "Can parse this file as TSV."
-        lines = islice(self.without_preamble(self.without_blank_lines(stream)), self.lines_to_test)
-        for line in lines:
-            if not string.count(line, self.delimiter):
-                return False
-        return True
+        try:
+            lines = islice(self.without_preamble(self.without_blank_lines(stream)), self.lines_to_test)
+            for line in lines:
+                if not string.count(line, self.delimiter):
+                    return False
+            return True
+        except:
+            return False
+

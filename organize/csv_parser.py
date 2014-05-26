@@ -54,14 +54,14 @@ class CSVParser(Parser):
 
     def can_parse(self, stream):
         "Can parse this file as CSV."
-        lines = islice(self.without_preamble(self.without_blank_lines(stream)), self.lines_to_test)
-        txt = '\n'.join(lines)
         try:
+            lines = islice(self.without_preamble(self.without_blank_lines(stream)), self.lines_to_test)
+            txt = '\n'.join(lines)
             dialect = self.guess_dialect(txt)
             if dialect and self.delimiter in txt:
                 return True
             return False
-        except csv.Error:
+        except:
             return False
 
     def without_preamble(self, stream):

@@ -42,7 +42,7 @@ class TestCSVParser(OrganizeTestCase):
             with self.file_handle(filename) as fh:
                 self.assertTrue(self.parser.can_parse(fh))
 
-        for filename in self.tsv_filenames:
+        for filename in self.tsv_filenames + self.excel_filenames:
             with self.file_handle(filename) as fh:
                 self.assertFalse(self.parser.can_parse(fh))
 
