@@ -54,6 +54,12 @@ class TestExcelParser(OrganizeTestCase):
             first = list(self.parser.parse(fh).next())
             self.assertEquals(first, self.first_line)
 
+    def test_parse_skip_whitespace(self):
+        "Test parsing Excel files."
+        filename = 'excel/simple_whitespace.xlsx'
+        with self.file_handle(filename) as fh:
+            first = list(self.parser.parse(fh).next())
+            self.assertEquals(first, self.first_line)
 
     def test_parse_with_preamble(self):
         "Test parsing a file with a preamble."

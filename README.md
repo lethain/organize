@@ -39,6 +39,10 @@ Install via pip:
 
     pip install -e git+https://github.com/lethain/organize#egg=organize
 
+Note that installing from Github will also download the <5MB of test datasets
+which are used when running the test suite. These are not installed when you
+install the package via ``setup.py build install``.
+
 For development:
 
     git clone git@github.com:lethain/organize.git

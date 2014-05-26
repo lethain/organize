@@ -60,18 +60,24 @@ class ExcelParser(Parser):
         start = 0
         previous = None
         for row_index in range(sheet.nrows):
-            row = sheet.row(row_index)
-            num_cols = len([x for x in row if x.value])
-            num_cols_per_line.append(num_cols)
-            if previous is not None:
-                if num_cols > previous * 2:
-                    start = row_index
-            previous = num_cols
+            row = sheet.row_values(row_index)
+            
+            # this is probably a bit weak to simply use the
+            # non-empty columns, perhaps a more robust check
+            # would be to use the last empty column, although
+            # in some situations that would likely not work either
+            num_cols = len([x for x in row if x])
+            if num_cols > 0:
+                num_cols_per_line.append(num_cols)
+                if previous is not None:
+                    if num_cols > previous * 2:
+                        start = row_index
+                previous = num_cols
 
         headers = sheet.row_values(start)
         for row_index in range(start+1, sheet.nrows):
             cols = sheet.row_values(row_index)
-            if len(cols):
+            if len([x for x in cols if x]):
                 yield izip_longest(headers, cols)
 
     def parse(self, stream):
