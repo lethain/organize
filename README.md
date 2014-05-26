@@ -1,9 +1,11 @@
 # organize
 
-Real world data is messy: the [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the ``.xls`` extension for TSV
-files on [data.gov](https://www.data.gov/) sometimes include preambles which break straightforward parsing, and
-if you've been using public data sources, then you have horror stories of your own. (If all your data comes
-from coworkers or colleagues then undoubtedly it's always perfectly formatted, but why take the risk?)
+Real world data is messy:
+
+1. the [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the ``.xls`` extension for TSV,
+2. files on [data.gov](https://www.data.gov/) sometimes include preambles which break straightforward parsing, and
+3. if you've been using public data sources, then you have horror stories of your own.
+4 (If all your data comes from coworkers or colleagues then undoubtedly it's always perfectly formatted, but why take the risk?)
 
 ``organize`` aims to make it easy to eliminate the hand-scrub phase from working with real-world data files:
 
