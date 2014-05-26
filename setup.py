@@ -11,4 +11,5 @@ setup(
     license='LICENSE.txt',
     description='Parse real-world tabular data in a wide variety of formats.',
     long_description=open('README.md').read(),
+    install_requires=['xlrd'],
 )

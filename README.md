@@ -1,14 +1,13 @@
 # organize
 
-Real world data is messy: tThe [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the ``.xls`` extension for their TSV files,
+Real world data is messy: the [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the ``.xls`` extension for TSV
 files on [data.gov](https://www.data.gov/) sometimes include preambles which break straightforward parsing, and
 if you've been using public data sources, then you have horror stories of your own. (If all your data comes
-from coworkers or colleagues then I'm certain it's always perfectly formatted, but why take the risk?)
+from coworkers or colleagues then undoubtedly it's always perfectly formatted, but why take the risk?)
 
 ``organize`` aims to make it easy to eliminate the hand-scrub phase from working with real-world data files:
 
-1. Read CSV and TSV formats, even if they are poorly labeled or missing a filename.
-    (Planned: Excel, simple JSON, simple YAML, simple XML.)
+1. Read CSV, TSV and Excel formats, even if they are poorly labeled or missing a filename.
 2. Skip over preambles lines which would otherwise require cleaning up by hand.
 3. Ignore lines with whitespace or where every column is empty.
 
