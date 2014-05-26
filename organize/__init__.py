@@ -30,7 +30,8 @@ class Organizer(object):
         prepend = prepend_parsers if prepend_parsers else []
         default = self.default_parsers() if use_default_parsers else []
         append = append_parsers if append_parsers else []
-        self.parsers = prepend + default + append
+        parsers = prepend + default + append
+        self.parsers = [parser() for parser in parsers]
 
     def default_parsers(self):
         "Find parsers for Organizer to support current formats."
@@ -62,8 +63,7 @@ class Organizer(object):
         """
         parser_order = self.determine_parser_order(filename=filename, mimetype=mimetype)
         exception = None
-        parsers = [parser() for parser in parser_order]
-        for parser in parsers:
+        for parser in parser_order:
             stream.seek(0)
             try:
                 if parser.can_parse(stream):

@@ -1,13 +1,19 @@
 # organize
 
-Data is messy in the real world.
+Real world data is messy.
 
-The [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the
-``.xls`` extension for their TSV files. Many files on [data.gov](https://www.data.gov/) include preambles
-which break straightforward parsing. Sadly, these are hardly the darkest crimes of storing tabular data
-out in the wild.
+The [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the ``.xls`` extension for their TSV files.
+Files on [data.gov](https://www.data.gov/) sometimes include preambles which break straightforward parsing.
+If you've been using public data sources, then you have horror stories of your own. If all your data comes
+from coworkers or colleagues then I'm certain it's always perfectly formatted, but why take the risk?
 
-``organize`` aims to make it easy to eliminate the hand-scrub phase from working with real-world data files.
+``organize`` aims to make it easy to eliminate the hand-scrub phase from working with real-world data files:
+
+1. Read CSV and TSV formats, even if they are poorly labeled or missing a filename.
+    (Planned: Excel, simple JSON, simple YAML, simple XML.)
+2. Skip over preambles lines which would otherwise require cleaning up by hand.
+3. Ignore lines with whitespace or where every column is empty.
+
 In most cases it should be as simple as:
 
     from organize import organize
@@ -17,50 +23,24 @@ In most cases it should be as simple as:
             for column_name, column_value in row:
                 print column_name, column_value
 
-It owes a spiritual debt to [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/), which
-similarly offered a sane abstraction over broken HTML, saving programmers great swaths of time and
-energy.
+For best performance, also supply the filename or mimetype to help
+prioritize the most likely parsers:
+
+    for row in organize(fin, filename='myfile.csv', mimetype='text/csv'):
+         # and so on
+
+``organize`` owes a spiritual debt to [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/),
+which similarly offered a sane abstraction over broken HTML, saving programmers great swaths of time
+and energy.
 
 Developed against Python 2.7, and hosted on [Github](https://github.com/lethain/organize).
 
 
-## Approach
-
-Our implementation approach is:
-
-1. The library should do the intended thing, even if it requires a hack
-    or underwhelming heuristic.
-2. Deal with streams, return streams. Many files are huge and we don't want
-    to be needlessly wasteful.
-3. Don't rely on filenames to identify data formats. Files are often mislabled or
-    not labeled at all.
-
-
-## What It Does Not Do
-
-``organize`` tries to parse tabular data files, and any tabular data file it does
-not parse is a bug. However, there are many things it does not do.
-These are not necessarily the final say, but represent our best current thinking.
-
-
-### Does not read directly from databases
-
-We do not plan to support reading directly from databases (MySQL, PostgreSQL, SQLite, MongoDB, ...).
-
-
-### Does not generate or enforce schemas
-
-We do not intend to create or enforce schemas on the organized data itself.
-Data will always be what the underlying format parser returns. For TSV, CSV,
-Excel this means a string, for more helpful formats like JSON it will be a
-string or integer or whatnot.
-
-We like this functionality, but believe it would be best suited to
-a different library built on top of ``organize`` as opposed to including
-it directly within the library itself.
-
-
 ## Installation
+
+Install via pip:
+
+    pip install -e git+https://github.com/lethain/organize#egg=organize
 
 For development:
 
@@ -68,18 +48,14 @@ For development:
     cd organize
     make env
 
-And then you can run the tests via:
+And then you can run the tests and stylechecks via:
 
-    make test
-
-and the stylechecks via:
-
-    make style
+    make test style
 
 
 ## Usage
 
-For normal usage, ``organize`` tries to present a very simple interface:
+For normal usage, ``organize`` presents a very simple interface:
 
     from organize import organize
 
@@ -88,10 +64,30 @@ For normal usage, ``organize`` tries to present a very simple interface:
             for name, val in row:
                 print "%s: %s" % (name, val)
 
-Note that both read the rows and reading the columns within the rows are
-dealing with generators to avoid reading the entire file into memory if you
-only want a few rows. If you wanted to process the same file twice, you
-would need to do something like this:
+If possible, you should also pass the filename (or mimetype) to
+the ``organize.organize`` function in order to prioritize the
+parsers. Supplying the filename or mimetype will improve performance
+in the normal case but will not impact correctness:
+
+    from organize import organize
+
+    filename = 'myfile.csv'
+    mimetype = 'text/csv'
+    with open('myfile', 'r') as fin:
+        for row in organize(fin, filename=filename, mimetype=mimetype):
+            for name, val in row:
+                print "%s: %s" % (name, val)
+
+In most cases there is not benefit to passing both filename and mimetype,
+but for cases where you're reading a bunch of files, generally try to
+supply as much information as possible.
+
+Note that both the row and columns are generators, so you cannot
+iterate through the returned generator multiple times. If you
+wanted to process the same file twice, you would need to do
+something like this:
+
+    from organize import organize
 
     with open('myfile', 'r') as fin:
         for row in organize(fin):
@@ -100,7 +96,6 @@ would need to do something like this:
         for row in organize(fin):
             print row
 
-Otherwise, it should really be that simple!
 
 ### Usage with Pandas
 
@@ -108,7 +103,8 @@ Otherwise, it should really be that simple!
 
 *to be written*
 
-### Duplicate columns, unnamed columns
+
+### Exposes duplicate columns, and unnamed columns
 
 Because we don't want to accidentally drop data we do not
 use a dictionary to store columns. This means by default you
@@ -135,6 +131,13 @@ If you want uniqueness and ordering, then you can use [collections.OrderedDict](
 In this case you'll get the first value for each name.
 
 
+### Sanitizing existing files
+
+One usecase for using ``organize`` is to rewrite a bunch of mediocre files in various
+formats into standardized output. An example of doing so is location in
+[inference/examples/transform_directory.py](inference/examples/transform_directory.py).
+
+
 ### Only Read Certain Rows
 
 For some reason you may only want a subset of rows.
@@ -149,6 +152,31 @@ Note that you won't get the literal rows 5 through 25 from the document,
 but rather rows 5 through 25 from the dataset extracted from the document.
 I honestly have no idea why you'd actually want to do this. If you do have
 a usecase, please let us know.
+
+
+## What It Does Not Do
+
+``organize`` tries to parse tabular data files, and any tabular data file it does
+not parse is a bug. However, there are many things it does not do.
+These are not necessarily the final say, but represent our best current thinking.
+
+
+### Does not read directly from databases
+
+We do not plan to support reading directly from databases (MySQL, PostgreSQL, SQLite, MongoDB, ...).
+
+
+### Does not generate or enforce schemas
+
+We do not intend to create or enforce schemas on the organized data itself.
+Data will always be what the underlying format parser returns. For TSV, CSV,
+Excel this means a string, for more helpful formats like JSON it will be a
+string or integer or whatnot.
+
+We like this functionality, but believe it would be best suited to
+a different library built on top of ``organize`` as opposed to including
+it directly within the library itself.
+
 
 ## Contribution and Development
 
@@ -166,6 +194,16 @@ It's OK to disable certain pylint checks within the files you edit if it's not f
 to resolve the pylint complaint. (For example, when it believes a given attribute doesn't
 exist which does but it can't lint properly for whatever reason.)
 
+### Approach
+
+Our implementation approach is:
+
+1. The library should do the intended thing, even if it requires a hack
+    or underwhelming heuristic.
+2. Deal with streams, return streams. Many files are huge and we don't want
+    to be needlessly wasteful.
+3. Don't rely on filenames to identify data formats. Files are often mislabled or
+    not labeled at all.
 
 ### Implemntation Notes
 
