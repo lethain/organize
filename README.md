@@ -133,7 +133,7 @@ In this case you'll get the first value for each name.
 
 One usecase for using ``organize`` is to rewrite a bunch of mediocre files in various
 formats into a standardized format. An example of doing so is location in
-[inference/examples/transform_directory.py](inference/inference/examples/transform_directory.py).
+[organize/examples/transform_directory.py](organize/examples/transform_directory.py).
 
 
 ### Only Read Certain Rows
