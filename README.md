@@ -1,11 +1,9 @@
 # organize
 
-Real world data is messy.
-
-The [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the ``.xls`` extension for their TSV files.
-Files on [data.gov](https://www.data.gov/) sometimes include preambles which break straightforward parsing.
-If you've been using public data sources, then you have horror stories of your own. If all your data comes
-from coworkers or colleagues then I'm certain it's always perfectly formatted, but why take the risk?
+Real world data is messy: tThe [IMF eLibrary Data](http://www.imf.org/external/data.htm) uses the ``.xls`` extension for their TSV files,
+files on [data.gov](https://www.data.gov/) sometimes include preambles which break straightforward parsing, and
+if you've been using public data sources, then you have horror stories of your own. (If all your data comes
+from coworkers or colleagues then I'm certain it's always perfectly formatted, but why take the risk?)
 
 ``organize`` aims to make it easy to eliminate the hand-scrub phase from working with real-world data files:
 
@@ -78,7 +76,7 @@ in the normal case but will not impact correctness:
             for name, val in row:
                 print "%s: %s" % (name, val)
 
-In most cases there is not benefit to passing both filename and mimetype,
+In most cases there is no benefit to passing both filename and mimetype,
 but for cases where you're reading a bunch of files, generally try to
 supply as much information as possible.
 
@@ -134,8 +132,8 @@ In this case you'll get the first value for each name.
 ### Sanitizing existing files
 
 One usecase for using ``organize`` is to rewrite a bunch of mediocre files in various
-formats into standardized output. An example of doing so is location in
-[inference/examples/transform_directory.py](inference/examples/transform_directory.py).
+formats into a standardized format. An example of doing so is location in
+[inference/examples/transform_directory.py](inference/inference/examples/transform_directory.py).
 
 
 ### Only Read Certain Rows
