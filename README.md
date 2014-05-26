@@ -132,11 +132,11 @@ In this case you'll get the first value for each name.
 ### Sanitizing existing files
 
 One usecase for using ``organize`` is to rewrite a bunch of mediocre files in various
-formats into a standardized format. An example of doing so is location in
+formats into a standardized format. An example of doing so is located in
 [organize/examples/transform_directory.py](organize/examples/transform_directory.py).
 
 
-### Only Read Certain Rows
+### Only read certain rows
 
 For some reason you may only want a subset of rows.
 For getting a subset of rows we recommend using [itertools.islice](https://docs.python.org/2/library/itertools.html#itertools.islice)
@@ -152,7 +152,7 @@ I honestly have no idea why you'd actually want to do this. If you do have
 a usecase, please let us know.
 
 
-## What It Does Not Do
+## What it doesn't do
 
 ``organize`` tries to parse tabular data files, and any tabular data file it does
 not parse is a bug. However, there are many things it does not do.
@@ -176,7 +176,7 @@ a different library built on top of ``organize`` as opposed to including
 it directly within the library itself.
 
 
-## Contribution and Development
+## Contribution and development
 
 This section includes some commentary for those interested and willing to contribute
 additions to this codebase. First, and most importantly: thank you!
@@ -192,7 +192,7 @@ It's OK to disable certain pylint checks within the files you edit if it's not f
 to resolve the pylint complaint. (For example, when it believes a given attribute doesn't
 exist which does but it can't lint properly for whatever reason.)
 
-### Areas for Future Development
+### Areas for future development
 
 We're using the [Github issue tracker](https://github.com/lethain/organize/issues) to
 track specific projects for future development, but broadly there are two areas we'd
@@ -216,12 +216,12 @@ Our implementation approach is:
 3. Don't rely on filenames to identify data formats. Files are often mislabled or
     not labeled at all.
 
-### Implemntation Notes
+### Implemntation notes
 
 This section includes a variety of implementation notes which may become somewhat relevant
 to you in some odd edge-cases, but generally are not important for using the library.
 
-#### Looking Ahead A Bit
+#### Looking ahead a bit
 
 We need to look ahead a bit at the beginning of files in order to exclude preamble
 rows within a given dataset. This means that we will read some rows of the loaded

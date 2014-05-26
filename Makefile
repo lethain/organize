@@ -9,3 +9,6 @@ test:
 style : 
 	$(PWD)/env/bin/pep8 --max-line-length=500 organize
 	$(PWD)/env/bin/pylint organize -E
+
+upload:
+	python setup.py sdist bdist_wininst upload

@@ -1,1 +1,2 @@
+v0.1.1, 5/24/2013 -- Readme updates.
 v0.1.0, 5/24/2013 -- Initial release.
