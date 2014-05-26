@@ -114,13 +114,23 @@ Because we don't want to accidentally drop data we do not
 use a dictionary to store columns. This means by default you
 will see all columns even if they are unnamed or have duplicate names.
 
-If you do **not** want duplicates, you can get ordered dictionaries
-of the rows instead:
+If you do **not** want duplicates, you can convert the rows into dictionaries
+simply by calling ``dict`` on each row:
 
     with open('myfile', 'r') as fin:
         for row in organize(fin):
-            for name, val in row.dict():
-                print name, val
+            row_dict = dict(row)
+            print row_dict.keys()
+
+If you want uniqueness and ordering, then you can use [collections.OrderedDict](https://docs.python.org/2/library/collections.html#collections.OrderedDict):
+
+    from collections import OrderedDict
+
+    with open('myfile', 'r') as fin:
+        for row in organize(fin):
+            row_dict = OrderedDict(row)
+            print row_dict.keys()
+
 
 In this case you'll get the first value for each name.
 

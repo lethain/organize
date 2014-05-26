@@ -50,3 +50,24 @@ class TestOrganize(OrganizeTestCase):
             lines = organize(fh)
             first = list(lines.next())
             self.assertEquals(first, first_line)
+
+    def test_to_dict(self):
+        "Test transforming into dicts as described in README."
+        filename = 'tsv/imf_disb_repay.tsv'
+        first_dict = {
+            u'PRGT Interest Paid': u'0',
+            u'GRA Disbursements': u'2,765,465,000',
+            u'GRA Charges Paid': u'584,358,716',
+            u'Total Charges and Interest': u'584,358,716',
+            u'PRGT Disbursements': u'63,266,571',
+            u'Total Repayments': u'5,559,606,670',
+            u'Year': u'2014',
+            u'PRGT Repayments': u'132,553,847',
+            u'GRA Repurchases': u'5,427,052,823',
+            u'Total Disbursements': u'2,828,731,571',
+        }
+
+        with self.file_handle(filename) as fh:
+            lines = organize(fh)
+            first = dict(list(lines.next()))
+            self.assertEquals(first, first_dict)
