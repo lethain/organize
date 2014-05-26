@@ -7,7 +7,7 @@ from organize.utils import import_class
 
 # Generally it's better to use ``append_parsers`` or ``prepend_parsers``
 # in ``Optimizer.__init__`` than to modify the default parser registry.
-PARSER_REGISTRY = ['organize.csv_parser.CSVParser', 'organize.tsv_parser.TSVParser']
+PARSER_REGISTRY = ['organize.csv_parser.CSVParser', 'organize.tsv_parser.TSVParser', 'organize.excel_parser.ExcelParser']
 
 
 def registered_parsers():

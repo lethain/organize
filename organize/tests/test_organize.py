@@ -51,6 +51,20 @@ class TestOrganize(OrganizeTestCase):
             first = list(lines.next())
             self.assertEquals(first, first_line)
 
+    def test_excel(self):
+        "Test parsing an Excel."
+        filename = 'excel/simple_whitespace.xlsx'
+        first_line = [
+            (u'Year', 1901),
+            (u'Increase', 1),
+            (u'Decrease', 14),
+            (u'Grade', u'A'),
+        ]
+        with self.file_handle(filename) as fh:
+            lines = organize(fh)
+            first = list(lines.next())
+            self.assertEquals(first, first_line)
+
     def test_to_dict(self):
         "Test transforming into dicts as described in README."
         filename = 'tsv/imf_disb_repay.tsv'
