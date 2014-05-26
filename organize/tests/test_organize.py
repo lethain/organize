@@ -8,7 +8,6 @@ from organize.tests import OrganizeTestCase
 
 class TestOrganize(OrganizeTestCase):
     "Test organize function."
-    
 
     def test_csv(self):
         "Test parsing a CSV."
@@ -51,5 +50,3 @@ class TestOrganize(OrganizeTestCase):
             lines = organize(fh)
             first = list(lines.next())
             self.assertEquals(first, first_line)
-
-

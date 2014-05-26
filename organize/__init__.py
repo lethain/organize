@@ -72,7 +72,7 @@ class Organizer(object):
             except Exception, e:
                 exception = e
         if exception:
-            raise exception
+            raise exception  # pylint: disable-msg=E0702
 
 
 def organize(stream, filename=None, mimetype=None):
