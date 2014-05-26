@@ -27,6 +27,3 @@ class TSVParser(CSVParser):
             if not string.count(line, self.delimiter):
                 return False
         return True
-                
-            
-        

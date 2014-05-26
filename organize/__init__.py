@@ -17,6 +17,7 @@ class Optimizer(object):
 
     """
     default_formats = ['csv', 'tsv', 'excel']
+
     def __init__(self, stream, filename=None, mimetype=None, use_default_parsers=True, prepend_parsers=None, append_parsers=None, use_filename_hints=True, use_mimetype_hints=True):
         """
         Initialize Optimizer.
@@ -41,7 +42,6 @@ class Optimizer(object):
         return parsers.registered_parsers()
 
 
-
 def optimize(stream, formats=None):
     """
     Read a file stream.
@@ -54,4 +54,4 @@ def optimize(stream, formats=None):
     You can select the support formats and also the
     order in which to try determining the formats.
     """
-    
+    pass

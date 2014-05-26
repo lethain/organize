@@ -16,4 +16,3 @@ class OrganizeTestCase(unittest.TestCase):
         "Create file handle for a data file."
         path = os.path.join(self.data_path, filename)
         return open(path, 'r')
-    

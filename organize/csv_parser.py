@@ -43,6 +43,7 @@ class CSVParser(Parser):
     delimiter = ','
     default_dialect = csv.excel
     lines_to_test = 25
+
     def guess_dialect(self, txt):
         "Try to guess CSV dialect."
         utf8_txt = txt.encode('utf-8')
@@ -98,7 +99,6 @@ class CSVParser(Parser):
         if not dialect:
             dialect = self.default_dialect
 
-
         # we need to chain the lines we read for dialect detection together
         # with the rest of the unread lines to avoid rereading or dropping
         # their contents
@@ -108,4 +108,4 @@ class CSVParser(Parser):
         headers = list(islice(reader, 0, 1))[0]
 
         for row in reader:
-            yield ((name,val) for name, val in izip_longest(headers, row))
+            yield ((name, val) for name, val in izip_longest(headers, row))

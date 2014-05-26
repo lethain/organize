@@ -19,6 +19,7 @@ class Parser(object):
     "Base parser class."
     mimetypes = ()
     extensions = ()
+    delimiter = ''
 
     def can_parse(self, stream):
         """
@@ -29,16 +30,16 @@ class Parser(object):
 
         Does not need to reset seek.
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     def parse(self, stream, columns=None):
         """
         Create a generator which transforms the stream into rows.
-        
+
         Specifically it should yield each row as a list of
         2-tuples (column name, column value).
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     def should_parse_by_filename(self, filename):
         """

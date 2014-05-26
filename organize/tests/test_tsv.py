@@ -34,7 +34,6 @@ class TestTSVParser(OrganizeTestCase):
         self.assertFalse(self.parser.should_parse_by_filename('myfile/test.csv'))
         self.assertFalse(self.parser.should_parse_by_filename('myfile/test.xls'))
 
-
     def test_can_parse(self):
         "Test determining which files are parsable."
         for filename in self.tsv_filenames:
