@@ -129,13 +129,6 @@ If you want uniqueness and ordering, then you can use [collections.OrderedDict](
 In this case you'll get the first value for each name.
 
 
-### Sanitizing existing files
-
-One usecase for using ``organize`` is to rewrite a bunch of mediocre files in various
-formats into a standardized format. An example of doing so is located in
-[organize/examples/transform_directory.py](organize/examples/transform_directory.py).
-
-
 ### Only read certain rows
 
 For some reason you may only want a subset of rows.
@@ -150,6 +143,32 @@ Note that you won't get the literal rows 5 through 25 from the document,
 but rather rows 5 through 25 from the dataset extracted from the document.
 I honestly have no idea why you'd actually want to do this. If you do have
 a usecase, please let us know.
+
+
+## Examples
+
+This section briefly describes the contents of the ``examples`` directory.
+
+
+### [transform_directory](organize/examples/transform_directory.py)
+
+Walks through slurping up all files in a directory, organizing them,
+and then writing the cleaned up versions into another directory.
+
+
+### [Using with Pandas](organize/example/with_pandas.py)
+
+[Pandas](http://pandas.pydata.org/) is one of the core Python
+data science packages, and a commonly used tool. While it provides
+many [tools for loading data](http://pandas.pydata.org/pandas-docs/stable/io.html),
+it doesn't place as much emphasis on handling poorly formatted data.
+
+    from organize import organize
+    import pandas as pd
+
+    pd.DataFrame.from_records(organize(open('myfile', 'r')))
+
+The example file is a bit better formatted, but expresses the same idea.
 
 
 ## What it doesn't do
