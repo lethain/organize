@@ -81,7 +81,6 @@ class CSVParser(Parser):
             num_cols = len(list(csv.reader(StringIO(line), delimiter=self.delimiter))[0])
             num_cols_per_line.append(num_cols)
             if previous is not None:
-                print num_cols, previous, list(csv.reader(StringIO(line), delimiter=self.delimiter))
                 if num_cols > previous * 2:
                     start = i
             previous = num_cols

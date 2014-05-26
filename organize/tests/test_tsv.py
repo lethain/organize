@@ -49,5 +49,4 @@ class TestTSVParser(OrganizeTestCase):
         filename = 'tsv/imf_disb_repay.tsv'
         with self.file_handle(filename) as fh:
             first = list(self.parser.parse(fh).next())
-            print "FIRST", first
             self.assertEquals(first, self.first_line)

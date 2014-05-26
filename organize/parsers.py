@@ -7,7 +7,7 @@ from organize.utils import import_class
 
 # Generally it's better to use ``append_parsers`` or ``prepend_parsers``
 # in ``Optimizer.__init__`` than to modify the default parser registry.
-PARSER_REGISTRY = ['organize.csv_parser.CSVParser', 'organize.tsv_parser.CSVParser']
+PARSER_REGISTRY = ['organize.csv_parser.CSVParser', 'organize.tsv_parser.TSVParser']
 
 
 def registered_parsers():
@@ -32,7 +32,7 @@ class Parser(object):
         """
         raise NotImplementedError
 
-    def parse(self, stream, columns=None):
+    def parse(self, stream):
         """
         Create a generator which transforms the stream into rows.
 
