@@ -30,4 +30,3 @@ class TSVParser(CSVParser):
             return True
         except:
             return False
-

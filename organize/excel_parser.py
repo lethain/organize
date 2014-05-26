@@ -42,11 +42,10 @@ class ExcelParser(Parser):
         except:
             return False
 
-
     def get_worksheet(self, workbook):
         """
         Pick the best worksheet from workbook.
-        
+
         Later should consider using longest one rather
         than simple the first one.
         """
@@ -61,7 +60,7 @@ class ExcelParser(Parser):
         previous = None
         for row_index in range(sheet.nrows):
             row = sheet.row_values(row_index)
-            
+
             # this is probably a bit weak to simply use the
             # non-empty columns, perhaps a more robust check
             # would be to use the last empty column, although
@@ -85,9 +84,3 @@ class ExcelParser(Parser):
         book = xlrd.open_workbook(file_contents=self.file_contents(stream))
         sheet = self.get_worksheet(book)
         return self.rows(sheet)
-        """
-        for row_index in range(sheet.nrows):
-            yield ((i, x.value) for i, x in enumerate(sheet.row(row_index)))
-
-            #yield ((xlrd.cellname(row_index,col_index), sheet.cell_value(row_index,col_index)) for col_index in range(sheet.ncols))
-        """
