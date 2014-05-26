@@ -1,18 +1,14 @@
 "Test CSV parsing."
 from itertools import islice
-import unittest
 import organize.csv_parser
-import os.path
+from organize.tests import OrganizeTestCase
 
 
-class TestCSVParser(unittest.TestCase):
+class TestCSVParser(OrganizeTestCase):
     "Test CSV."
     def setUp(self):
         "Test CSV parser."
         self.parser = organize.csv_parser.CSVParser()
-        self.data_path = os.path.join(os.path.dirname(__file__), 'data')
-        self.csv_filenames = ['csv/Baby_Names__Beginning_2007.csv',  'csv/worldbank.csv']
-        self.tsv_filenames = ['tsv/imf_disb_repay.tsv']
         self.worldbank_first_line = [(u'Country', u'Belarus'), (u'Year', u'2000'),
                                      (u'CO2 emissions (metric tons per capita)', u'5.91'),
                                      (u'Electric power consumption (kWh per capita)', u'2988.71'),
@@ -25,11 +21,6 @@ class TestCSVParser(unittest.TestCase):
                                      (u'Population, total', u'1.00E+07'),
                                      (u'Prevalence of HIV, total (% of population ages 15-49)', u''),
         ]
-
-    def file_handle(self, filename):
-        "Create file handle for a data file."
-        path = os.path.join(self.data_path, filename)
-        return open(path, 'r')
 
     def test_should_parse_by_mimetype(self):
         "Responds to proper mimetype."
@@ -78,7 +69,3 @@ class TestCSVParser(unittest.TestCase):
             first = list(lines.next())
             self.assertEquals(first, self.worldbank_first_line)
             self.assertEquals(3, len(list(lines)))
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -1,4 +1,4 @@
-"CSV Parser."
+"Comma Separated Values Parser."
 import csv
 from itertools import islice, chain, izip_longest
 from organize.parsers import Parser
@@ -41,11 +41,15 @@ class CSVParser(Parser):
     mimetypes = ('text/csv')
     extensions = ('.csv')
     delimiter = ','
+    default_dialect = csv.excel
     lines_to_test = 25
     def guess_dialect(self, txt):
         "Try to guess CSV dialect."
         utf8_txt = txt.encode('utf-8')
-        return csv.Sniffer().sniff(utf8_txt, delimiters=self.delimiter)
+        try:
+            return csv.Sniffer().sniff(utf8_txt, delimiters=self.delimiter)
+        except:
+            pass
 
     def can_parse(self, stream):
         "Can parse this file as CSV."
@@ -53,7 +57,7 @@ class CSVParser(Parser):
         txt = '\n'.join(lines)
         try:
             dialect = self.guess_dialect(txt)
-            if self.delimiter in txt:
+            if dialect and self.delimiter in txt:
                 return True
             return False
         except csv.Error:
@@ -69,14 +73,14 @@ class CSVParser(Parser):
         then we cut them off.
         """
         lines = list(islice(stream, self.lines_to_test))
-
         num_cols_per_line = []
         start = 0
         previous = None
         for i, line in enumerate(lines):
-            num_cols = len(list(csv.reader(StringIO(line)))[0])
+            num_cols = len(list(csv.reader(StringIO(line), delimiter=self.delimiter))[0])
             num_cols_per_line.append(num_cols)
             if previous is not None:
+                print num_cols, previous, list(csv.reader(StringIO(line), delimiter=self.delimiter))
                 if num_cols > previous * 2:
                     start = i
             previous = num_cols
@@ -91,6 +95,9 @@ class CSVParser(Parser):
         lines = self.without_preamble(self.without_blank_lines(stream))
         lines_for_dialect = list(islice(lines, self.lines_to_test))
         dialect = self.guess_dialect('\n'.join(lines_for_dialect))
+        if not dialect:
+            dialect = self.default_dialect
+
 
         # we need to chain the lines we read for dialect detection together
         # with the rest of the unread lines to avoid rereading or dropping
