@@ -12,3 +12,6 @@ style :
 
 upload:
 	python setup.py sdist bdist_wininst upload
+
+clean:
+	rm -rf build/ dist/ organize.egg-info/
