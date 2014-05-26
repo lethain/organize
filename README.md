@@ -35,7 +35,11 @@ Developed against Python 2.7, and hosted on [Github](https://github.com/lethain/
 
 ## Installation
 
-Install via pip:
+Simplest is to install via pip from [PyPi](https://pypi.python.org/pypi?name=organize):
+
+    pip install organize
+
+Alternative, you can install it from Github if you want an unreleased branch or commit:
 
     pip install -e git+https://github.com/lethain/organize#egg=organize
 
@@ -96,13 +100,6 @@ something like this:
         fin.seek(0)
         for row in organize(fin):
             print row
-
-
-### Usage with Pandas
-
-[pandas](http://pandas.pydata.org/)
-
-*to be written*
 
 
 ### Exposes duplicate columns, and unnamed columns
@@ -194,6 +191,19 @@ via:
 It's OK to disable certain pylint checks within the files you edit if it's not feasible
 to resolve the pylint complaint. (For example, when it believes a given attribute doesn't
 exist which does but it can't lint properly for whatever reason.)
+
+### Areas for Future Development
+
+We're using the [Github issue tracker](https://github.com/lethain/organize/issues) to
+track specific projects for future development, but broadly there are two areas we'd
+like to continue improving upon:
+
+1. File parsing should be as robust as possible for existing formats.
+2. File parsing should support as many formats as useful.
+
+Anything along those lines that doesn't introduce significant complexity or
+performance degradation will probably be viewed as a very good thing.
+
 
 ### Approach
 
